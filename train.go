@@ -5,49 +5,45 @@ import (
 	"time"
 )
 
+func twoSum(nums []int, target int) []int {
+	m := make(map[int]int)
+	for i, v := range nums {
+		if p, ok := m[target-v]; ok {
+			return []int{p, i}
+		}
+		m[v] = i
+	}
+	return []int{}
+}
+
 //ListNode 链表.
 type ListNode struct {
 	Val  int
 	Next *ListNode
 }
 
-//func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-//	var l3 *ListNode
-//	i := 10
-//	j := 0
-//	for l1 != nil && l2 != nil {
-//		sum := l1.Val + l2.Val
-//		tmp := ListNode{sum%i + j, nil}
-//		j = sum / i
-//		if l3 == nil {
-//			l3 = &tmp
-//			fmt.Println(0, l3)
-//		} else {
-//			tmp.Next = l3
-//			l3 = &tmp
-//			fmt.Println(1, l3)
-//		}
-//		l1 = l1.Next
-//		l2 = l2.Next
-//	}
-//	return l3
-//}
-
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	var l3 *ListNode
 	i := 10
 	j := 0
-	for (l1 != nil && l2 != nil) || j != 0 {
+	for l1 != nil || l2 != nil || j != 0 {
 		var sum int
 		var tmp ListNode
 
 		if l1 != nil {
-			sum = l1.Val + l2.Val
-			tmp = ListNode{sum%i + j, nil}
-			j = sum / i
-		} else if j != 0 {
+			sum += l1.Val
+		}
+		if l2 != nil {
+			sum += l2.Val
+		}
+		sum += j
+
+		if l1 == nil && l2 == nil && j != 0 {
 			tmp = ListNode{j, nil}
 			j = 0
+		} else {
+			tmp = ListNode{sum % i, nil}
+			j = sum / i
 		}
 		if l3 == nil {
 			l3 = &tmp
@@ -57,6 +53,8 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		}
 		if l1 != nil {
 			l1 = l1.Next
+		}
+		if l2 != nil {
 			l2 = l2.Next
 		}
 	}
@@ -77,14 +75,16 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 func main() {
 	t := time.Now()
 
-	//	l1 := ListNode{2, &ListNode{4, &ListNode{3, nil}}}
-	//	l2 := ListNode{5, &ListNode{6, &ListNode{4, nil}}}
-	//	result := addTwoNumbers(&l1, &l2)
-	result := addTwoNumbers(&ListNode{9, &ListNode{8, nil}}, &ListNode{1, nil})
-	for result != nil {
-		fmt.Println(result)
-		result = result.Next
-	}
+	//1.
+	//	result := twoSum([]int{2, 7, 11, 15}, 9)
+	//	fmt.Println(result)
+
+	//2.
+	//	result := addTwoNumbers(&ListNode{9, &ListNode{9, nil}}, &ListNode{1, nil})
+	//	for result != nil {
+	//		fmt.Println(result)
+	//		result = result.Next
+	//	}
 
 	fmt.Println("Timing:", time.Since(t))
 
