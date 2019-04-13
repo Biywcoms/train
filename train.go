@@ -72,26 +72,36 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	return l4
 }
 
-func lengthOfLongestSubstring(s string) int {
-	m := make(map[int32]int)
-	max := -1
-	for i, v := range s {
-		if p, ok := m[v]; ok {
-			//			m[v] = i
-			if i-p > max {
-				max = i - p
+func countsub(n int, s string) int {
+	if s == "" {
+		return n
+	} else {
+		m := make(map[int32]int)
+		j := 0
+		for i, v := range s {
+			if p, ok := m[v]; ok {
+				if i-p > n {
+					n = i - p
+				}
+				fmt.Println(n, p, i)
+				return countsub(n, s[p+1:])
 			}
-			fmt.Println(max, v)
-		} else if i-max > max {
-			max = i - max
-			fmt.Println(i, max, v)
+			m[v] = i
+			j++
 		}
-		//	else {
-		//		m[v] = i
-		//	}
-		m[v] = i
+		if j >= n {
+			return j
+		} else {
+			return n
+		}
 	}
-	return max
+}
+
+func lengthOfLongestSubstring(s string) int {
+	//	max := 0
+	//	max = countsub(max, s)
+	//	return max
+	return countsub(0, s)
 
 }
 
@@ -110,8 +120,8 @@ func main() {
 	//	}
 
 	//3.
-	//aaaaa abcdef abcdaef
-	result := lengthOfLongestSubstring("abcdef")
+	//aaaaa abcdef abcdaef abcabcb cddb
+	result := lengthOfLongestSubstring("cdd")
 	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
