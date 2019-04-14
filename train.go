@@ -80,10 +80,9 @@ func countsub(n int, s string) int {
 		j := 0
 		for i, v := range s {
 			if p, ok := m[v]; ok {
-				if i-p > n {
-					n = i - p
+				if j > n {
+					n = j
 				}
-				fmt.Println(n, p, i)
 				return countsub(n, s[p+1:])
 			}
 			m[v] = i
@@ -121,7 +120,7 @@ func main() {
 
 	//3.
 	//aaaaa abcdef abcdaef abcabcb cddb
-	result := lengthOfLongestSubstring("cdd")
+	result := lengthOfLongestSubstring("aacdefghifkl")
 	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
