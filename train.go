@@ -97,11 +97,28 @@ func countsub(n int, s string) int {
 }
 
 func lengthOfLongestSubstring(s string) int {
-	//	max := 0
-	//	max = countsub(max, s)
-	//	return max
-	return countsub(0, s)
-
+	max := 0
+	j := 0
+	m := make(map[byte]int)
+	for i := 0; i < len(s); i++ {
+		if p, ok := m[s[i]]; ok {
+			if j > max {
+				max = j
+			}
+			i = p + 1
+			j = 1
+			m = make(map[byte]int)
+			m[s[i]] = i
+			continue
+		}
+		j++
+		m[s[i]] = i
+	}
+	if j > max {
+		return j
+	} else {
+		return max
+	}
 }
 
 func main() {
@@ -120,7 +137,7 @@ func main() {
 
 	//3.
 	//aaaaa abcdef abcdaef abcabcb cddb
-	result := lengthOfLongestSubstring("aacdefghifkl")
+	result := lengthOfLongestSubstring("abcdef")
 	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
