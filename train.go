@@ -72,6 +72,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	return l4
 }
 
+//lengthOfLongestSubstring
 func countsub(n int, s string) int {
 	if s == "" {
 		return n
@@ -95,8 +96,7 @@ func countsub(n int, s string) int {
 		}
 	}
 }
-
-func lengthOfLongestSubstring(s string) int {
+func lengthOfLongestSubstring2(s string) int {
 	max := 0
 	j := 0
 	m := make(map[byte]int)
@@ -119,6 +119,42 @@ func lengthOfLongestSubstring(s string) int {
 	} else {
 		return max
 	}
+
+}
+
+func lengthOfLongestSubstring3(s string) int {
+	max := 0
+	last := 0
+	m := make(map[byte]int)
+	for i := 0; i < len(s); i++ {
+		if p, ok := m[s[i]]; ok && p >= last {
+			last = p + 1
+		}
+		if i-last+1 > max {
+			max = i - last + 1
+		}
+		m[s[i]] = i
+	}
+	return max
+}
+
+func lengthOfLongestSubstring(s string) int {
+	max := 0
+	last := 0
+	m := [128]int{}
+	for i := 0; i < len(m); i++ {
+		m[i] = -1
+	}
+	for i := 0; i < len(s); i++ {
+		if p := m[s[i]]; p >= last {
+			last = p + 1
+		}
+		if i-last+1 > max {
+			max = i - last + 1
+		}
+		m[s[i]] = i
+	}
+	return max
 }
 
 func main() {
@@ -137,7 +173,7 @@ func main() {
 
 	//3.
 	//aaaaa abcdef abcdaef abcabcb cddb
-	result := lengthOfLongestSubstring("abcdef")
+	result := lengthOfLongestSubstring("abcabcbb")
 	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
