@@ -157,6 +157,28 @@ func lengthOfLongestSubstring(s string) int {
 	return max
 }
 
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	//	if nums1 == nil{
+	//		lenght := len(nums2)
+	//		y := lenght%2
+	//		i := lenght/2
+	//	}
+	lenght1 := len(nums1)
+	y1 := lenght1 % 2
+	i1 := lenght1 / 2
+
+	lenght2 := len(nums2)
+	y2 := lenght2 % 2
+	i2 := lenght2 / 2
+
+	fmt.Println(y1, i1, y2, i2)
+
+	if nums1[i1+y1] > nums2[i2+y2] {
+
+	}
+
+	return 1.0
+}
 func main() {
 	t := time.Now()
 
@@ -173,7 +195,10 @@ func main() {
 
 	//3.
 	//aaaaa abcdef abcdaef abcabcb cddb
-	result := lengthOfLongestSubstring("abcabcbb")
+	///	result := lengthOfLongestSubstring("abcabcbb")
+
+	//4.
+	result := findMedianSortedArrays([]int{1, 3}, []int{2})
 	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
