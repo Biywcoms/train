@@ -1,1 +1,6 @@
-*.un~
+*un~
+
+#rust
+*.exe
+*.pdb
+target/

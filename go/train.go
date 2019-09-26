@@ -174,6 +174,7 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	fmt.Println(y1, i1, y2, i2)
 
 	if nums1[i1+y1] > nums2[i2+y2] {
+		return 0.0
 
 	}
 
@@ -195,11 +196,12 @@ func main() {
 
 	//3.
 	//aaaaa abcdef abcdaef abcabcb cddb
-	///	result := lengthOfLongestSubstring("abcabcbb")
+		result := lengthOfLongestSubstring("abcabcbb")
+		fmt.Println(result)
 
 	//4.
-	result := findMedianSortedArrays([]int{1, 3}, []int{2})
-	fmt.Println(result)
+//	result := findMedianSortedArrays([]int{1, 3}, []int{2})
+//	fmt.Println(result)
 
 	fmt.Println("Timing:", time.Since(t))
 
