@@ -28,7 +28,6 @@ pub fn main() {
         }
     });
 
-    let mut cnt:u32 = 1_000_000;
 
     let pts:[Point;3]=[ 
         Point {x:WIDTH/2,y:0},
@@ -41,16 +40,26 @@ pub fn main() {
     let mut p = Point{x:350, y:350};
     let pixel = img[(0,0)];
 
-    while cnt >0 {
-        cnt = cnt -1;
+//    while cnt >0 {
+//        cnt = cnt -1;
+//        num = rand::thread_rng().gen_range(0,3);
+//        p.x = (p.x + pts[num].x)/2;
+//        p.y = (p.y + pts[num].y)/2;
+//        img.put_pixel(p.x, p.y, pixel);
+//    }
+    let cnt:u32 = 1_000_000;
+    for _ in 0..cnt{
         num = rand::thread_rng().gen_range(0,3);
         p.x = (p.x + pts[num].x)/2;
         p.y = (p.y + pts[num].y)/2;
         img.put_pixel(p.x, p.y, pixel);
     }
 
+
     //let ref mut fout = File::create(&Path::new("tri.png")).unwrap();
     
-    let _ = image::ImageLuma8(img).save(&Path::new("tri.png"));
+//    let s: String = cnt.to_string();
+    let ref name: String=format!("{}{}{}",String::from("tri_"),cnt.to_string(),String::from(".png"));
+    let _ = image::ImageLuma8(img).save(&Path::new(name));
     //let _ = image::ImageLuma8(img).save_with_format(fout,image::PNG);
 }
