@@ -457,7 +457,7 @@
 
 (defn vampire-related-details
   [social-security-number]
-  (Thread/sleep 1000)
+  (Thread/sleep 2000)
   (get vampire-database social-security-number))
 
 (defn vampire?
@@ -470,3 +470,118 @@
   (first (filter vampire?
                  (map vampire-related-details social-security-numbers))))
 
+(time (vampire-related-details 0))
+
+(time (def mapped-details (map vampire-related-details (range 0 1000000))))
+
+(time (second mapped-details))
+
+(time (identify-vampire (range 0 1000000)))
+
+(concat (take 8 (repeat "na")) ["Batman!"])
+
+(take 3 (repeatedly (fn [] (rand-int 10))))
+
+(defn even-numbers
+  ([] (even-numbers 0))
+  ([n] (cons n (lazy-seq (even-numbers (+ n 2))))))
+
+(take 10 (even-numbers))
+
+(cons 0 '(2 4 6))
+
+(empty? [])
+(empty? ["no!"])
+(empty? [nil])
+
+(map identity {:sunlight-reaction "Glitter!"})
+(into {} (map identity {:sunlight-reaction "Glitter!"}))
+
+(map identity [:garlic :sesame-oil :fried-eggs])
+(into () (map identity [:garlic :sesame-oil :fried-eggs]))
+
+(map identity [:garlic-clove :garlic-clove])
+(into #{} (map identity [:garlic-clove :garlic-clove]))
+
+(into {:favorite-emotion "gloomy"} [[:sunlight-reaction "Glitter!"]])
+(into ["cherry"] #{"cherry" "pine" "spruce"})
+(into {:favorite-animal "kitty"} {:least-favorite-smell "dog"
+                                  :relationship-with-teenager "creepy"})
+
+(conj [0] [1])
+(into [0] [1])
+(conj [0] 1)
+(into [0] '(1))
+
+(conj [0] 1 2 3 4)
+(conj {:time "midnight"} {:place "ye olde cemetarium" :test "test"})
+
+(defn my-conj
+  [target & additions]
+  (into target additions))
+
+(my-conj [0] [1 2 3])
+(into [0] '([1 2 3]))
+
+(max 1 2 3 4 5 2 1)
+(min 1 3 4 0 4 5 5)
+(max [1 2 3 4 5 2 1])
+(min [1 3 4 0 4 5 5])
+
+(apply max [0 1 2])
+
+(defn my-into
+  [target additions]
+  (apply conj target additions))
+
+(my-into [0] [1 2 3])
+
+(def add10 (partial + 10))
+(add10 3)
+(add10 5)
+
+(def add-missing-elements
+  (partial conj ["water" "earth" "air"]))
+
+(add-missing-elements "unobtainium" "adamantium")
+
+(defn my-partial
+  [partialized-fn & args]
+  (fn [& more-args]
+    (apply partialized-fn (into args more-args))))
+
+(def add20 (my-partial + 20))
+(add20 3 5)
+
+(fn [& more-args]
+  (apply + (into [20] more-args)))
+
+(defn lousy-logger
+  [log-level message]
+  (condp = log-level
+    :warn (clojure.string/lower-case message)
+    :emergency (clojure.string/upper-case message)))
+
+(def warn (partial lousy-logger :warn))
+(def emergency (partial lousy-logger :emergency))
+(warn "Red light ahead 2KLKLSDKF")
+(emergency "Red light ahead 2KLKLSDKF")
+
+(defn identity-humans
+  [social-security-numbers]
+  (filter #(not (vampire? %))
+          (map vampire-related-details social-security-numbers)))
+
+(def not-vampire? (complement vampire?))
+(defn identify-humans
+  [social-security-numbers]
+  (filter not-vampire?
+          (map vampire-related-details social-security-numbers)))
+
+(defn my-complement
+  [fun]
+  (fn [& args]
+    (not (apply fun args))))
+(def my-pos? (complement neg?))
+(my-pos? 1)
+(my-pos? -1)
